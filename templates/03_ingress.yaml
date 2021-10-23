@@ -8,11 +8,8 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: "Host(`filbot.net`)"
+      match: Host(`filbot.net`) && Path(`/`)
       services:
-        - kind: Service
-          name: foundryvtt-service
-          passHostHeader: true
-          port: 8080
-          scheme: http
+        - name: foundryvtt-service
+          port: 80
 ...

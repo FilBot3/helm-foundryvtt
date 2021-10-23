@@ -8,7 +8,6 @@ spec:
     app: foundryvtt
   ports:
     - protocol: TCP
-      port: 8080
+      port: 80
       targetPort: 30000
-  type: ClusterIP
 ...
