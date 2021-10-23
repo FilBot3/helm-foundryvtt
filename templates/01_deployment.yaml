@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foundryvtt-deployment
+  labels:
+    app: foundryvtt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foundryvtt
+  template:
+    metadata:
+      labels:
+        app: foundryvtt
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: ubuntu-k3s-wkr1
+      containers:
+        - name: foundryvtt-nginx
+          image: docker.io/library/node:17.0.1-bullseye
+          imagePullPolicy: IfNotPresent
+          command:
+            - node
+          args:
+            - '/foundryvtt/resources/app/main.js'
+            - '--dataPath=/foundrydata'
+          ports:
+            - containerPort: 30000
+          volumeMounts:
+            - mountPath: /foundryvtt
+              name: foundry-app
+            - mountPath: /foundrydata
+              name: foundry-data
+      volumes:
+        - name: foundry-app
+          hostPath:
+            path: /opt/foundryvtt
+            type: Directory
+        - name: foundry-data
+          hostPath:
+            path: /opt/foundrydata
+            type: Directory
+...

@@ -1,0 +1,10 @@
+---
+apiVersion: v2
+name: foundryvtt
+description: |
+  A Helm Chart to run NodeJS container which mounts FoundryVTT into it and it's
+  data directory. Yes, it's not idea, but it's in Kubernetes, get over it.
+type: application
+version: 0.1.0
+appVersion: "0.8.6"
+...
