@@ -1,20 +1,18 @@
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: foundryvtt-ingress
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+  name: foundryvtt-ingress-route
 spec:
-  rules:
-    - host: filbot.net
-      http:
-        paths:
-          - path: /foundry
-            pathType: Prefix
-            backend:
-              service:
-                name: foundryvtt-service
-                port:
-                  number: 30000
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: "Host(`filbot.net`)"
+      services:
+        - kind: Service
+          name: foundryvtt-service
+          passHostHeader: true
+          port: 8080
+          scheme: http
 ...
