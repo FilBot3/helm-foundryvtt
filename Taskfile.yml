@@ -1,0 +1,33 @@
+---
+# https://taskfile.dev
+version: '3'
+
+vars:
+  DEPLOYMENT_NAME: foundryvtt
+  HELM_CHART_LOCATION: .
+
+tasks:
+  default:
+    deps:
+      - template
+
+  template:
+    desc: Render the Helm Chart templates
+    cmds:
+      - "helm template {{ .DEPLOYMENT_NAME }} {{ .HELM_CHART_LOCATION }}"
+
+  install:
+    desc: Install the Helm Chart
+    cmds:
+      - "helm upgrade {{ .DEPLOYMENT_NAME }} {{ .HELM_CHART_LOCATION }} --install"
+
+  upgrade:
+    desc: Upgrade the Helm Chart
+    deps:
+      - install
+
+  uninstall:
+    desc: Uninstall the Helm Chart
+    cmds:
+      - "helm uninstall {{ .DEPLOYMENT_NAME }}"
+...
